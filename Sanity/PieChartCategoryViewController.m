@@ -9,7 +9,7 @@
 #import "PieChartCategoryViewController.h"
 #import "XYPieChart.h"
 #import "SingleCategoryTableViewController.h"
-
+#import "UIClientConnector.h"
 
 @interface PieChartCategoryViewController ()
 @property (weak, nonatomic) IBOutlet XYPieChart *PieChartDisplay;
@@ -21,7 +21,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    //initialize arrays
+    self.texts = [[NSMutableArray alloc] init];
+    self.slices = [[NSMutableArray alloc] init];
+    self.transactionNames = [[NSMutableArray alloc] init];
+    self.transactionAmounts = [[NSMutableArray alloc] init];
+    self.transactionDates = [[NSMutableArray alloc] init];
     
     //set up page title
     self.navigationItem.title = self.pageTitle;
@@ -34,6 +39,30 @@
     
     //set up string
     self.detailLabel.text = self.textForPieChart;
+
+    //set up delegate
+    self.controller = UIClientConnector.myClient.categoryPage;
+    UIClientConnector.myClient.categoryPage.delegate = self;
+    if(self.period == 0)
+    {
+        //NSLog(@"call with %@, %@ ", self.budgetName, self.pageTitle);
+        [self.controller requestCategory:self.budgetName category:self.pageTitle];
+    }else{
+    #warning to be uncommented
+        //[self.controller requestCategory:self.budgetName category:self.pageTitle period:self.period];
+    }
+    
+    /*
+    //for testing purposers
+    self.texts =  @[@"used",@"unused"];
+    self.slices = @[@"50",@"130"];
+    self.transactionNames = @[@"trans1",@"trans2"];
+    self.transactionAmounts = @[@"$100",@"$150"];
+    self.transactionDates = @[@"5/10/2017",@"8/10/2017"];
+    self.numOfTransactions = 2;
+    self.textForPieChart = @"100/200";
+    self.pieChartLabelColor = @"red";
+    */
 }
 
 - (void)didReceiveMemoryWarning {
@@ -76,6 +105,7 @@
         destViewController.textForPieChart = self.textForPieChart;
         destViewController.pieChartLabelColor = self.pieChartLabelColor;
         destViewController.pageTitle = self.pageTitle;
+        destViewController.period = self.period;
     }
 }
 
@@ -96,7 +126,7 @@
 }
 
 //call back function for delegate
-- (void) setTexts:(NSArray*) textsArray slices:(NSArray*)slicesArray transactionNames:(NSArray*) names transactionAmounts:(NSArray*) amounts transactionDates:(NSArray*)dates numOfTransactions:(int) number labelColor:(NSString*) color
+- (void) setTexts:(NSMutableArray *) textsArray slices:(NSMutableArray *)slicesArray transactionNames:(NSMutableArray *) names transactionAmounts:(NSMutableArray *) amounts transactionDates:(NSMutableArray *)dates numOfTransactions:(int) number labelColor:(NSString*) color
 {
     self.texts = textsArray;
     self.slices = slicesArray;
@@ -105,6 +135,14 @@
     self.transactionDates = dates;
     self.numOfTransactions = number;
     self.pieChartLabelColor = color;
+    if([color isEqualToString:@"red"])
+    {
+        self.detailLabel.textColor = [UIColor redColor];
+    }else if([color isEqualToString:@"black"])
+    {
+        self.detailLabel.textColor = [UIColor blackColor];
+    }
+    [self.PieChartDisplay reloadData];
 }
 /*
  #pragma mark - Navigation

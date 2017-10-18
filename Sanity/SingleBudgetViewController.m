@@ -7,7 +7,9 @@
 //
 
 #import "SingleBudgetViewController.h"
-#import "SingleCategoryTableViewController.h"
+#import "UIClientConnector.h"
+#import "PieChartCategoryViewController.h"
+#import "EditBudgetPage.h"
 
 @interface SingleBudgetViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *labelTest;
@@ -21,9 +23,19 @@
 @implementation SingleBudgetViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];    
+    [super viewDidLoad];
     //set title
     self.navigationItem.title = self.pageTitle;
+    self.slices = [[NSMutableArray alloc] init];
+    self.texts = [[NSMutableArray alloc] init];
+    
+    //set up delegate
+    self.controller = UIClientConnector.myClient.budgetList;
+    UIClientConnector.myClient.budgetList.delegate = self;
+    //to get data
+    [self.controller requestBudget:self.pageTitle];
+    
+    
     //set up pie chart
     [self.PieChartDisplay setDelegate:self];
     [self.PieChartDisplay setDataSource:self];
@@ -38,7 +50,9 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"BudgetToCategory"]){
-        SingleCategoryTableViewController *controller = (SingleCategoryTableViewController *)segue.destinationViewController;
+        NSLog(@"send data");
+        PieChartCategoryViewController *controller = (PieChartCategoryViewController *)segue.destinationViewController;
+        /*
         controller.texts =  @[[self.texts objectAtIndex:self.indexClicked],@"unused"];
         controller.slices = @[@"50",@"130"];
         controller.transactionNames = @[@"trans1",@"trans2"];
@@ -47,8 +61,13 @@
         controller.numOfTransactions = 2;
         controller.textForPieChart = @"100/200";
         controller.pieChartLabelColor = @"red";
+        */
         controller.pageTitle = self.texts[self.indexClicked];
-       
+        controller.period = 0;
+        controller.budgetName = self.pageTitle;
+    }else if([segue.identifier isEqualToString:@"BudgetToEditBudget"]){
+        EditBudgetPage *controller = (EditBudgetPage *)segue.destinationViewController;
+        controller.budgetName = self.pageTitle;
     }
 }
 
@@ -79,7 +98,10 @@
 
 - (CGFloat)pieChart:(XYPieChart *)pieChart valueForSliceAtIndex:(NSUInteger)index
 {
-    return [[self.slices objectAtIndex:index] intValue];
+    NSArray *array = [[self.slices objectAtIndex:index] componentsSeparatedByString:@"/"];
+    //NSLog(@"%@",[array objectAtIndex:1]);
+    return [[array objectAtIndex:1] intValue];
+    //return [[self.slices objectAtIndex:index] intValue];
 }
 
 - (NSString *)pieChart:(XYPieChart *)pieChart textForSliceAtIndex:(NSUInteger)index
@@ -92,20 +114,27 @@
 - (void)pieChart:(XYPieChart *)pieChart didSelectSliceAtIndex:(NSUInteger)index
 {
     self.indexClicked = (int)index;
+    //for getting values
+    NSArray *array = [[self.slices objectAtIndex:index] componentsSeparatedByString:@"/"];
     //display detailed Info
-    self.labelForClickedElement.text = [NSString stringWithFormat:@"%@ $%d/$%d",[self.texts objectAtIndex:index],(int)[self.slices objectAtIndex:index],80];
+    self.labelForClickedElement.text = [NSString stringWithFormat:@"%@,   %.02f/%.02f",[self.texts objectAtIndex:index],[[array objectAtIndex:0] floatValue],[[array objectAtIndex:1] floatValue] ] ;
     
     //change text color based on the spending level
-    if(rand()%3 == 0)
+    if([[array objectAtIndex:0] floatValue] > [[array objectAtIndex:1] floatValue])
     {
+        self.labelForClickedElement.textColor = [UIColor redColor];
+        
+    }else{
         self.labelForClickedElement.textColor = [UIColor blackColor];
-    }else if(rand()%3 == 1)
+    }
+    
+    /*else if(rand()%3 == 1)
     {
         self.labelForClickedElement.textColor = [UIColor orangeColor];
     }else  if(rand()%3 == 2)
     {
-        self.labelForClickedElement.textColor = [UIColor redColor];
-    }
+        
+    }*/
     
     if(self.numOfClicks == 0){
         //first click, don't redirect
@@ -119,6 +148,7 @@
         //third click with same element, redirect
         self.numOfClicks = 0;
         self.previousIndexClicked = -1;
+        NSLog(@"perform segue");
         [self performSegueWithIdentifier:@"BudgetToCategory" sender:self];
     }
 }
@@ -132,11 +162,13 @@
 
 
 //call back function for delegate
-- (void) setTexts:(NSArray*) textsArray slices:(NSArray*)slicesArray
+- (void) setTexts:(NSMutableArray *) textsArray slices:(NSMutableArray *)slicesArray
 {
     self.texts = textsArray;
     self.slices = slicesArray;
+    [self.PieChartDisplay reloadData];
 }
+
 
 /*
  #pragma mark - Navigation

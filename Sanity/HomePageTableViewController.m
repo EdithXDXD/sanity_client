@@ -12,8 +12,8 @@
 #import "UIClientConnector.h"
 
 @interface HomePageTableViewController ()
-@property (strong,nonatomic) NSArray* categorySlices;
-@property (strong,nonatomic) NSArray* categoryTexts;
+@property (strong,nonatomic) NSMutableArray* categorySlices;
+@property (strong,nonatomic) NSMutableArray* categoryTexts;
 
 @end
 
@@ -129,7 +129,8 @@
 //call delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.controller requestBudget:self.budgetArray[(int)indexPath.row]];
+    //[self.controller requestBudget:self.budgetArray[(int)indexPath.row]];
+    [self performSegueWithIdentifier:@"HomeToBudget" sender:self.tableView];
 }
 
 //send parameter to next page by directing changing the values
@@ -140,35 +141,38 @@
         SingleBudgetViewController * destViewController = segue.destinationViewController;
         //destViewController.indexNum = indexPath.row;
         //int indexSelected = (int) indexPath.row;
-        destViewController.slices = self.categorySlices;
-        destViewController.texts = self.categoryTexts;
+     //   destViewController.slices = [[NSMutableArray alloc] init];
+     //   destViewController.texts = [[NSMutableArray alloc] init];
+        //destViewController.slices = self.categorySlices;
+        //destViewController.texts = self.categoryTexts;
         destViewController.pageTitle = self.budgetArray[(int)indexPath.row];
-        /*
+        
+        
         //testing code
+        /*
         for(int i = 0; i < 5; i ++)
         {
             NSNumber * temp = [NSNumber numberWithInt:rand()%60+20];
             int tempInt = [temp integerValue];
             [destViewController.slices addObject:temp];
             [destViewController.texts addObject:[[NSString alloc] initWithFormat:@"Food%d",i]];
-        }
-        */
+        }*/
+        
     }
 }
 
 //call back function for delegate
-- (void) setBudget:(NSArray*) budget amount:(NSArray*) amount colors:(NSArray*)color
+- (void) setBudget:(NSMutableArray*) budget amount:(NSMutableArray *) amount colors:(NSMutableArray*)color
 {
     self.budgetArray = budget;
     self.amountArray = amount;
     self.colors = color;
     [self reloadData];
 }
-- (void) setTexts:(NSArray*) textsArray slices:(NSArray*) slicesArray
+- (void) setTexts:(NSMutableArray*) textsArray slices:(NSMutableArray *) slicesArray
 {
     self.categoryTexts = textsArray;
     self.categorySlices = slicesArray;
-    [self performSegueWithIdentifier:@"HomeToBudget" sender:self];
 }
 
 /*

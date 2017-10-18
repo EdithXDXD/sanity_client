@@ -7,17 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CategoryPageController.h"
+
 
 @interface PieChartCategoryViewController : UIViewController
-@property (nonatomic, strong) NSArray *texts;
-@property (nonatomic, strong) NSArray *slices;
-@property (nonatomic, strong) NSArray *transactionNames;
-@property (nonatomic, strong) NSArray *transactionAmounts;
-@property (nonatomic, strong) NSArray *transactionDates;
+@property (nonatomic, strong) NSMutableArray *texts;
+@property (nonatomic, strong) NSMutableArray *slices;
+@property (nonatomic, strong) NSMutableArray *transactionNames;
+@property (nonatomic, strong) NSMutableArray *transactionAmounts;
+@property (nonatomic, strong) NSMutableArray *transactionDates;
 @property int numOfTransactions;
 @property (nonatomic, strong) NSString * textForPieChart;
 @property (nonatomic, strong) NSString * pieChartLabelColor;
 @property (nonatomic, strong) NSString * pageTitle;
-- (void) setTexts:(NSArray*) textsArray slices:(NSArray*)slicesArray transactionNames:(NSArray*) names transactionAmounts:(NSArray*) amounts transactionDates:(NSArray*)dates numOfTransactions:(int) number labelColor:(NSString*) color;
+@property (strong,nonatomic) CategoryPageController * controller;
+@property int period;
+@property (nonatomic, strong) NSString * budgetName;
+
+- (void) setTexts:(NSMutableArray *) textsArray slices:(NSMutableArray *)slicesArray transactionNames:(NSMutableArray *) names transactionAmounts:(NSMutableArray *) amounts transactionDates:(NSMutableArray *)dates numOfTransactions:(int) number labelColor:(NSString*) color;
 
 @end

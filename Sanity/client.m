@@ -16,6 +16,8 @@
 #import "CategoryPageController.h"
 #import "ProfilePageController.h"
 #import "UIClientConnector.h"
+#import "ChangePasswordController.h"
+#import "ChangeUsernameController.h"
 #import "Budget.h"
 #import "Category.h"
 #import "Transaction.h"
@@ -38,7 +40,8 @@
         _budgetList=[[BudgetListController alloc] initWithClass:self];
         _categoryPage=[[CategoryPageController alloc] initWithClass:self];
         _profilePage=[[ProfilePageController alloc] initWithClass:self];
-
+        _changePassword=[[ChangePasswordController alloc] initWithClass:self];
+        _changeUsername=[[ChangeUsernameController alloc] initWithClass:self];
         
         
     }
@@ -57,7 +60,7 @@
     //NSDictionary *message=@{@"function":@"test"};
     //[UIClientConnector.myClient sendMessage:message];
 
-    LoginController* logCon=[[LoginController alloc] initWithClass:self];
+   // LoginController* logCon=[[LoginController alloc] initWithClass:self];
    //[logCon login:@"tianmule@usc.edu" password:@"baobao"];
    //[logCon login:@"tianmule@usc.edu" password:@"baobao1"];
     
@@ -253,6 +256,22 @@
                 [self pharseAlldata:_budgetListDataDic];
                 
             
+        }else if ([function isEqualToString:@"changePassword"]){
+            if([status isEqualToString:@"fail"]){
+                [_changePassword fail];
+            }
+            else{
+               [ _changePassword success];
+            }
+        }
+        else if ([function isEqualToString:@"changeUsername"]){
+            if([status isEqualToString:@"fail"]){
+                
+            }
+            else{
+                [_changeUsername success];
+                
+            }
         }
         
         
@@ -456,6 +475,29 @@
     }
     
 }
+
+-(Budget*) getBudget:(NSString*)name{
+    for(int i=0;i<_budgetListData.count;i++){
+        Budget* single=[_budgetListData objectAtIndex:i];
+        if([single.name isEqualToString:name]){
+            return single;
+        }
+    }
+    return nil;
+    
+}
+-(Category*) getCategory:(NSString*)budgetName :(NSString*)categoryName{
+    Budget* single=[self getBudget:budgetName];
+    for(int j=0;j<single.categories.count;j++){
+        Category* cat=  [single.categories objectAtIndex:j];
+        if([cat.name isEqualToString:categoryName]){
+            return cat;
+        }
+    }
+    return nil;
+}
+
+
 
 
 

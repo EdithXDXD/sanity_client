@@ -8,6 +8,8 @@
 
 #import "SingleBudgetHistoryViewController.h"
 #import "SingleCategoryTableViewController.h"
+#import "UIClientConnector.h"
+#import "PieChartCategoryViewController.h"
 
 @interface SingleBudgetHistoryViewController () <UIPickerViewDelegate, UIPickerViewDataSource>
 @property (weak, nonatomic) IBOutlet UILabel *labelTest;
@@ -60,7 +62,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier isEqualToString:@"SingleBudgetHistoryToCategory"]){
-        SingleCategoryTableViewController *controller = (SingleCategoryTableViewController *)segue.destinationViewController;
+        PieChartCategoryViewController *controller = (PieChartCategoryViewController *)segue.destinationViewController;
         controller.texts =  @[[self.texts objectAtIndex:self.indexClicked],@"unused"];
         controller.slices = @[@"50",@"130"];
         controller.transactionNames = @[@"trans1",@"trans2"];
@@ -70,7 +72,7 @@
         controller.textForPieChart = @"100/200";
         controller.pieChartLabelColor = @"red";
         controller.pageTitle = self.texts[self.indexClicked];
-        
+        controller.budgetName = self.pageTitle;
     }
 }
 
@@ -101,7 +103,10 @@
 
 - (CGFloat)pieChart:(XYPieChart *)pieChart valueForSliceAtIndex:(NSUInteger)index
 {
-    return [[self.slices objectAtIndex:index] intValue];
+    NSArray *array = [[self.slices objectAtIndex:index] componentsSeparatedByString:@"/"];
+    //NSLog(@"%@",[array objectAtIndex:1]);
+    return [[array objectAtIndex:1] intValue];
+    //return [[self.slices objectAtIndex:index] intValue];
 }
 
 - (NSString *)pieChart:(XYPieChart *)pieChart textForSliceAtIndex:(NSUInteger)index
@@ -114,20 +119,27 @@
 - (void)pieChart:(XYPieChart *)pieChart didSelectSliceAtIndex:(NSUInteger)index
 {
     self.indexClicked = (int)index;
+    //for getting values
+    NSArray *array = [[self.slices objectAtIndex:index] componentsSeparatedByString:@"/"];
     //display detailed Info
-    self.labelForClickedElement.text = [NSString stringWithFormat:@"%@ $%d/$%d",[self.texts objectAtIndex:index],(int)[self.slices objectAtIndex:index],80];
-#warning hardcoded color should be based on the spending level
+    self.labelForClickedElement.text = [NSString stringWithFormat:@"%@,   %.02f/%.02f",[self.texts objectAtIndex:index],[[array objectAtIndex:0] floatValue],[[array objectAtIndex:1] floatValue] ] ;
+    
     //change text color based on the spending level
-    if(rand()%3 == 0)
-    {
-        self.labelForClickedElement.textColor = [UIColor blackColor];
-    }else if(rand()%3 == 1)
-    {
-        self.labelForClickedElement.textColor = [UIColor orangeColor];
-    }else  if(rand()%3 == 2)
+    if([[array objectAtIndex:0] floatValue] > [[array objectAtIndex:1] floatValue])
     {
         self.labelForClickedElement.textColor = [UIColor redColor];
+        
+    }else{
+        self.labelForClickedElement.textColor = [UIColor blackColor];
     }
+    
+    /*else if(rand()%3 == 1)
+     {
+     self.labelForClickedElement.textColor = [UIColor orangeColor];
+     }else  if(rand()%3 == 2)
+     {
+     
+     }*/
     
     if(self.numOfClicks == 0){
         //first click, don't redirect
@@ -194,6 +206,7 @@
     if (pickerView == self.periodPicker) {
         //need controller
         self.periodTF.text = _periods[row];
+        
         [self.periodTF endEditing:YES];
 #warning reload here
     }
@@ -203,13 +216,14 @@
 - (void) settingPeriodPicker:(NSArray *)periodArray {
     self.periods = [[NSArray alloc] init];
     self.periods = periodArray;
-
+    
 }
 //call back function for delegate
-- (void) setTexts:(NSArray*) textsArray slices:(NSArray*)slicesArray
+- (void) setTexts:(NSMutableArray*) textsArray slices:(NSMutableArray *)slicesArray
 {
     self.texts = textsArray;
     self.slices = slicesArray;
+    [self.PieChartDisplay reloadData];
 }
 
 /*
