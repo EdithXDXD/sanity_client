@@ -28,9 +28,20 @@
 }
 
 -(void) requestBudgetAndCate{
-    NSDictionary *info=@{@"email":self.client.myUser.email};
-    NSDictionary *message=@{@"function":@"budgetAndTransaction",@"information":info};
-    [self.client sendMessage:message];
+    
+    [self.delegate receiveBudgetInfo:self.client.budgetListData];
+   // NSDictionary *info=@{@"email":self.client.myUser.email};
+   // NSDictionary *message=@{@"function":@"budgetAndTransaction",@"information":info};
+   // [self.client sendMessage:message];
+}
+
+-(void) fail{
+    [self.delegate addFailed];
+
+    }
+-(void) success{
+    [self.delegate addSuccessful];
+
 }
 
 
