@@ -18,6 +18,8 @@
 		7C2D9E131F875EFD00027681 /* SanityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C2D9E121F875EFD00027681 /* SanityTests.m */; };
 		7C2D9E1E1F875EFD00027681 /* SanityUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C2D9E1D1F875EFD00027681 /* SanityUITests.m */; };
 		7C2D9E2D1F875FA200027681 /* client.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C2D9E2C1F875FA200027681 /* client.m */; };
+		7C698AA81F983F4800F697F7 /* BudgetListHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C698AA71F983F4800F697F7 /* BudgetListHistoryController.m */; };
+		7C698AAB1F983F6000F697F7 /* BudgetPageHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C698AAA1F983F6000F697F7 /* BudgetPageHistoryController.m */; };
 		7C703F291F8ABF6A00B5D982 /* Transaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C703F281F8ABF6A00B5D982 /* Transaction.m */; };
 		7C703F2C1F8AC1EB00B5D982 /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C703F2B1F8AC1EB00B5D982 /* Category.m */; };
 		7C703F2F1F8AC32A00B5D982 /* Budget.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C703F2E1F8AC32A00B5D982 /* Budget.m */; };
@@ -33,6 +35,7 @@
 		7C8F834F1F94BEFA0053B40B /* EditBudgetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8F834E1F94BEFA0053B40B /* EditBudgetController.m */; };
 		7CA1D1EB1F897A87003631D6 /* MainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1D1E81F897A87003631D6 /* MainController.m */; };
 		7CA1D1EC1F897A87003631D6 /* SignupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1D1EA1F897A87003631D6 /* SignupController.m */; };
+		7CDBD2401FA57A770081C356 /* AddCategoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CDBD23F1FA57A770081C356 /* AddCategoryController.m */; };
 		8434BE091F91FF2200A4BDC7 /* LoginPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8434BE041F91FF2200A4BDC7 /* LoginPage.m */; };
 		8434BE0A1F91FF2200A4BDC7 /* SignupPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8434BE061F91FF2200A4BDC7 /* SignupPage.m */; };
 		843599C01F91DB39002372E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 843599B81F91DB38002372E9 /* Assets.xcassets */; };
@@ -46,15 +49,29 @@
 		843599CC1F91DBFD002372E9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 843599CB1F91DBFD002372E9 /* QuartzCore.framework */; };
 		84416C301F9483E300C711E1 /* PieChartCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84416C2F1F9483E300C711E1 /* PieChartCategoryViewController.m */; };
 		8457BF1E1F93363A0028166A /* HomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8457BF1D1F93363A0028166A /* HomeTableViewCell.m */; };
+		8468B69A1FA48D240060B59D /* SanityUILoginFailed.m in Sources */ = {isa = PBXBuildFile; fileRef = 8468B6991FA48D240060B59D /* SanityUILoginFailed.m */; };
+		8468B69C1FA48DF00060B59D /* SanityUISignupFailed.m in Sources */ = {isa = PBXBuildFile; fileRef = 8468B69B1FA48DF00060B59D /* SanityUISignupFailed.m */; };
+		8468B69E1FA48E320060B59D /* SanityUISignupFailedWithNotEnoughArgs.m in Sources */ = {isa = PBXBuildFile; fileRef = 8468B69D1FA48E320060B59D /* SanityUISignupFailedWithNotEnoughArgs.m */; };
+		8468B6A01FA48F550060B59D /* SanityUICreateBudgetsFailedWithNotEnoughArgs.m in Sources */ = {isa = PBXBuildFile; fileRef = 8468B69F1FA48F550060B59D /* SanityUICreateBudgetsFailedWithNotEnoughArgs.m */; };
 		849E42911F9434A200074460 /* PieChartCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 849E42901F9434A200074460 /* PieChartCell.m */; };
 		849E42941F9438EC00074460 /* SingleCategoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 849E42931F9438EC00074460 /* SingleCategoryTableViewController.m */; };
 		849E42971F943E8600074460 /* TranscationLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 849E42961F943E8600074460 /* TranscationLabelCell.m */; };
 		849E429A1F94402900074460 /* TransactionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 849E42991F94402900074460 /* TransactionCell.m */; };
 		84C6F8821F954E7400F2F061 /* HistoryHomeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C6F8811F954E7400F2F061 /* HistoryHomeTableViewController.m */; };
+		84EF3EC41FA458F60064703F /* SanityUICreateBudget.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EF3EC31FA458F60064703F /* SanityUICreateBudget.m */; };
+		84EF3EC61FA459F60064703F /* SanityUIRefreshHome.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EF3EC51FA459F60064703F /* SanityUIRefreshHome.m */; };
+		84EF3EC81FA4715C0064703F /* SanityUIPieChartShowDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EF3EC71FA4715C0064703F /* SanityUIPieChartShowDetail.m */; };
+		84EF3ECA1FA477950064703F /* testPieChartRedirect.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EF3EC91FA477950064703F /* testPieChartRedirect.m */; };
+		84EF3ECC1FA47B0D0064703F /* SanityUICreateDuplicateBudget.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EF3ECB1FA47B0D0064703F /* SanityUICreateDuplicateBudget.m */; };
+		84EF3ECE1FA47D5F0064703F /* SanityUILogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EF3ECD1FA47D5F0064703F /* SanityUILogin.m */; };
+		84EF3ED01FA47E770064703F /* SanityUISignUp.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EF3ECF1FA47E770064703F /* SanityUISignUp.m */; };
 		84F4390C1F957C890040D12B /* SingleBudgetHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F4390B1F957C890040D12B /* SingleBudgetHistoryViewController.m */; };
 		C0ACF45D5FDB633C6D76F84C /* libPods-Sanity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB1AA2A5F86FBB7BDA75AF6F /* libPods-Sanity.a */; };
 		CC2D17E11F91AFBE0052613D /* ProfilePage.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D17E01F91AFBE0052613D /* ProfilePage.m */; };
 		CC2D17E41F91C2AF0052613D /* AddBudgetPage.m in Sources */ = {isa = PBXBuildFile; fileRef = CC2D17E31F91C2AF0052613D /* AddBudgetPage.m */; };
+		CC61DB9C1FA7C3BF009621A0 /* ViewTransactions.m in Sources */ = {isa = PBXBuildFile; fileRef = CC61DB9B1FA7C3BF009621A0 /* ViewTransactions.m */; };
+		CC61DB9E1FA805E0009621A0 /* ViewCatesCorrToBudget.m in Sources */ = {isa = PBXBuildFile; fileRef = CC61DB9D1FA805E0009621A0 /* ViewCatesCorrToBudget.m */; };
+		CC61DBA01FA81EE4009621A0 /* ChangePasswordSucc.m in Sources */ = {isa = PBXBuildFile; fileRef = CC61DB9F1FA81EE4009621A0 /* ChangePasswordSucc.m */; };
 		CC673EDC1F934B54000CE0B6 /* CategoryNameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC673EDA1F934B54000CE0B6 /* CategoryNameCell.m */; };
 		CC673EDD1F934B54000CE0B6 /* CategoryNameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CC673EDB1F934B54000CE0B6 /* CategoryNameCell.xib */; };
 		CC673EE11F934C29000CE0B6 /* AmountCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CC673EDF1F934C29000CE0B6 /* AmountCell.xib */; };
@@ -68,6 +85,10 @@
 		CC8D32151F952BF700FE0704 /* ResetPasswordPage.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D32141F952BF700FE0704 /* ResetPasswordPage.m */; };
 		CC8D32181F9558CC00FE0704 /* AddCategoryPage.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8D32171F9558CC00FE0704 /* AddCategoryPage.m */; };
 		CCB2DFB51F9526E600503F0D /* ResetUsernamePage.m in Sources */ = {isa = PBXBuildFile; fileRef = CCB2DFB41F9526E600503F0D /* ResetUsernamePage.m */; };
+		CCF0CE9E1FA6DD3A00FE4C45 /* SanityUIAddCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = CCF0CE9D1FA6DD3A00FE4C45 /* SanityUIAddCategory.m */; };
+		CCF0CE9F1FA6DF0000FE4C45 /* HomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8457BF1D1F93363A0028166A /* HomeTableViewCell.m */; };
+		CCF7954F1FA6F6020040BCE1 /* SanityUIAddTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = CCF7954E1FA6F6020040BCE1 /* SanityUIAddTransaction.m */; };
+		CCF795511FA79E280040BCE1 /* AddDuplicateTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = CCF795501FA79E280040BCE1 /* AddDuplicateTransaction.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +133,10 @@
 		7C2D9E1F1F875EFD00027681 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C2D9E2B1F875FA200027681 /* client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = client.h; sourceTree = "<group>"; };
 		7C2D9E2C1F875FA200027681 /* client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = client.m; sourceTree = "<group>"; };
+		7C698AA61F983F4800F697F7 /* BudgetListHistoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BudgetListHistoryController.h; sourceTree = "<group>"; };
+		7C698AA71F983F4800F697F7 /* BudgetListHistoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BudgetListHistoryController.m; sourceTree = "<group>"; };
+		7C698AA91F983F6000F697F7 /* BudgetPageHistoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BudgetPageHistoryController.h; sourceTree = "<group>"; };
+		7C698AAA1F983F6000F697F7 /* BudgetPageHistoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BudgetPageHistoryController.m; sourceTree = "<group>"; };
 		7C703F271F8ABF6A00B5D982 /* Transaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Transaction.h; sourceTree = "<group>"; };
 		7C703F281F8ABF6A00B5D982 /* Transaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Transaction.m; sourceTree = "<group>"; };
 		7C703F2A1F8AC1EB00B5D982 /* Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Category.h; sourceTree = "<group>"; };
@@ -142,6 +167,8 @@
 		7CA1D1E81F897A87003631D6 /* MainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainController.m; sourceTree = "<group>"; };
 		7CA1D1E91F897A87003631D6 /* SignupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignupController.h; sourceTree = "<group>"; };
 		7CA1D1EA1F897A87003631D6 /* SignupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignupController.m; sourceTree = "<group>"; };
+		7CDBD23E1FA57A770081C356 /* AddCategoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCategoryController.h; sourceTree = "<group>"; };
+		7CDBD23F1FA57A770081C356 /* AddCategoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCategoryController.m; sourceTree = "<group>"; };
 		8434BE031F91FF2200A4BDC7 /* LoginPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginPage.h; sourceTree = "<group>"; };
 		8434BE041F91FF2200A4BDC7 /* LoginPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginPage.m; sourceTree = "<group>"; };
 		8434BE051F91FF2200A4BDC7 /* SignupPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignupPage.h; sourceTree = "<group>"; };
@@ -162,6 +189,10 @@
 		84416C2F1F9483E300C711E1 /* PieChartCategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieChartCategoryViewController.m; sourceTree = "<group>"; };
 		8457BF1C1F93363A0028166A /* HomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeTableViewCell.h; sourceTree = "<group>"; };
 		8457BF1D1F93363A0028166A /* HomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeTableViewCell.m; sourceTree = "<group>"; };
+		8468B6991FA48D240060B59D /* SanityUILoginFailed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SanityUILoginFailed.m; sourceTree = "<group>"; };
+		8468B69B1FA48DF00060B59D /* SanityUISignupFailed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SanityUISignupFailed.m; sourceTree = "<group>"; };
+		8468B69D1FA48E320060B59D /* SanityUISignupFailedWithNotEnoughArgs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SanityUISignupFailedWithNotEnoughArgs.m; sourceTree = "<group>"; };
+		8468B69F1FA48F550060B59D /* SanityUICreateBudgetsFailedWithNotEnoughArgs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SanityUICreateBudgetsFailedWithNotEnoughArgs.m; sourceTree = "<group>"; };
 		849E428F1F9434A200074460 /* PieChartCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieChartCell.h; sourceTree = "<group>"; };
 		849E42901F9434A200074460 /* PieChartCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieChartCell.m; sourceTree = "<group>"; };
 		849E42921F9438EC00074460 /* SingleCategoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleCategoryTableViewController.h; sourceTree = "<group>"; };
@@ -172,12 +203,22 @@
 		849E42991F94402900074460 /* TransactionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransactionCell.m; sourceTree = "<group>"; };
 		84C6F8801F954E7400F2F061 /* HistoryHomeTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryHomeTableViewController.h; sourceTree = "<group>"; };
 		84C6F8811F954E7400F2F061 /* HistoryHomeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryHomeTableViewController.m; sourceTree = "<group>"; };
+		84EF3EC31FA458F60064703F /* SanityUICreateBudget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SanityUICreateBudget.m; sourceTree = "<group>"; };
+		84EF3EC51FA459F60064703F /* SanityUIRefreshHome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SanityUIRefreshHome.m; sourceTree = "<group>"; };
+		84EF3EC71FA4715C0064703F /* SanityUIPieChartShowDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SanityUIPieChartShowDetail.m; sourceTree = "<group>"; };
+		84EF3EC91FA477950064703F /* testPieChartRedirect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testPieChartRedirect.m; sourceTree = "<group>"; };
+		84EF3ECB1FA47B0D0064703F /* SanityUICreateDuplicateBudget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SanityUICreateDuplicateBudget.m; sourceTree = "<group>"; };
+		84EF3ECD1FA47D5F0064703F /* SanityUILogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SanityUILogin.m; sourceTree = "<group>"; };
+		84EF3ECF1FA47E770064703F /* SanityUISignUp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SanityUISignUp.m; sourceTree = "<group>"; };
 		84F4390A1F957C890040D12B /* SingleBudgetHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleBudgetHistoryViewController.h; sourceTree = "<group>"; };
 		84F4390B1F957C890040D12B /* SingleBudgetHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleBudgetHistoryViewController.m; sourceTree = "<group>"; };
 		CC2D17DF1F91AFBE0052613D /* ProfilePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfilePage.h; sourceTree = "<group>"; };
 		CC2D17E01F91AFBE0052613D /* ProfilePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfilePage.m; sourceTree = "<group>"; };
 		CC2D17E21F91C2AF0052613D /* AddBudgetPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddBudgetPage.h; sourceTree = "<group>"; };
 		CC2D17E31F91C2AF0052613D /* AddBudgetPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddBudgetPage.m; sourceTree = "<group>"; };
+		CC61DB9B1FA7C3BF009621A0 /* ViewTransactions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewTransactions.m; sourceTree = "<group>"; };
+		CC61DB9D1FA805E0009621A0 /* ViewCatesCorrToBudget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewCatesCorrToBudget.m; sourceTree = "<group>"; };
+		CC61DB9F1FA81EE4009621A0 /* ChangePasswordSucc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordSucc.m; sourceTree = "<group>"; };
 		CC673ED91F934B54000CE0B6 /* CategoryNameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryNameCell.h; sourceTree = "<group>"; };
 		CC673EDA1F934B54000CE0B6 /* CategoryNameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryNameCell.m; sourceTree = "<group>"; };
 		CC673EDB1F934B54000CE0B6 /* CategoryNameCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryNameCell.xib; sourceTree = "<group>"; };
@@ -201,6 +242,9 @@
 		CC8D321A1F95813200FE0704 /* Sanity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sanity.entitlements; sourceTree = "<group>"; };
 		CCB2DFB31F9526E600503F0D /* ResetUsernamePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetUsernamePage.h; sourceTree = "<group>"; };
 		CCB2DFB41F9526E600503F0D /* ResetUsernamePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetUsernamePage.m; sourceTree = "<group>"; };
+		CCF0CE9D1FA6DD3A00FE4C45 /* SanityUIAddCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SanityUIAddCategory.m; sourceTree = "<group>"; };
+		CCF7954E1FA6F6020040BCE1 /* SanityUIAddTransaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SanityUIAddTransaction.m; sourceTree = "<group>"; };
+		CCF795501FA79E280040BCE1 /* AddDuplicateTransaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddDuplicateTransaction.m; sourceTree = "<group>"; };
 		EB1AA2A5F86FBB7BDA75AF6F /* libPods-Sanity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sanity.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -275,6 +319,12 @@
 				7C252C621F97272F00DCD981 /* ChangePasswordController.m */,
 				7C252C641F97275000DCD981 /* ChangeUsernameController.h */,
 				7C252C651F97275000DCD981 /* ChangeUsernameController.m */,
+				7C698AA61F983F4800F697F7 /* BudgetListHistoryController.h */,
+				7C698AA71F983F4800F697F7 /* BudgetListHistoryController.m */,
+				7C698AA91F983F6000F697F7 /* BudgetPageHistoryController.h */,
+				7C698AAA1F983F6000F697F7 /* BudgetPageHistoryController.m */,
+				7CDBD23E1FA57A770081C356 /* AddCategoryController.h */,
+				7CDBD23F1FA57A770081C356 /* AddCategoryController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -350,8 +400,25 @@
 		7C2D9E1C1F875EFD00027681 /* SanityUITests */ = {
 			isa = PBXGroup;
 			children = (
+				8468B69F1FA48F550060B59D /* SanityUICreateBudgetsFailedWithNotEnoughArgs.m */,
+				8468B69D1FA48E320060B59D /* SanityUISignupFailedWithNotEnoughArgs.m */,
+				8468B69B1FA48DF00060B59D /* SanityUISignupFailed.m */,
+				8468B6991FA48D240060B59D /* SanityUILoginFailed.m */,
+				84EF3ECF1FA47E770064703F /* SanityUISignUp.m */,
+				84EF3ECD1FA47D5F0064703F /* SanityUILogin.m */,
+				84EF3ECB1FA47B0D0064703F /* SanityUICreateDuplicateBudget.m */,
+				84EF3EC91FA477950064703F /* testPieChartRedirect.m */,
+				84EF3EC71FA4715C0064703F /* SanityUIPieChartShowDetail.m */,
+				84EF3EC51FA459F60064703F /* SanityUIRefreshHome.m */,
+				84EF3EC31FA458F60064703F /* SanityUICreateBudget.m */,
 				7C2D9E1D1F875EFD00027681 /* SanityUITests.m */,
 				7C2D9E1F1F875EFD00027681 /* Info.plist */,
+				CCF0CE9D1FA6DD3A00FE4C45 /* SanityUIAddCategory.m */,
+				CCF7954E1FA6F6020040BCE1 /* SanityUIAddTransaction.m */,
+				CCF795501FA79E280040BCE1 /* AddDuplicateTransaction.m */,
+				CC61DB9B1FA7C3BF009621A0 /* ViewTransactions.m */,
+				CC61DB9D1FA805E0009621A0 /* ViewCatesCorrToBudget.m */,
+				CC61DB9F1FA81EE4009621A0 /* ChangePasswordSucc.m */,
 			);
 			path = SanityUITests;
 			sourceTree = "<group>";
@@ -504,7 +571,6 @@
 				TargetAttributes = {
 					7C2D9DF41F875EFD00027681 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 4C4WA9FBP2;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -654,15 +720,18 @@
 				7C2D9E2D1F875FA200027681 /* client.m in Sources */,
 				7C8F83491F93FB3A0053B40B /* ProfilePageController.m in Sources */,
 				7C8F83401F93FA5F0053B40B /* BudgetListController.m in Sources */,
+				7C698AAB1F983F6000F697F7 /* BudgetPageHistoryController.m in Sources */,
 				7C703F2F1F8AC32A00B5D982 /* Budget.m in Sources */,
 				7C8F833A1F92C72E0053B40B /* AddTransactionController.m in Sources */,
 				7C8F833D1F92DE230053B40B /* AddBudgetController.m in Sources */,
 				CCB2DFB51F9526E600503F0D /* ResetUsernamePage.m in Sources */,
+				7CDBD2401FA57A770081C356 /* AddCategoryController.m in Sources */,
 				CC673EF81F946ACA000CE0B6 /* CategoryDisplay.m in Sources */,
 				7CA1D1EB1F897A87003631D6 /* MainController.m in Sources */,
 				CC673EF11F9357F7000CE0B6 /* HobbyCell.m in Sources */,
 				849E42911F9434A200074460 /* PieChartCell.m in Sources */,
 				CC673EDC1F934B54000CE0B6 /* CategoryNameCell.m in Sources */,
+				7C698AA81F983F4800F697F7 /* BudgetListHistoryController.m in Sources */,
 				843599C31F91DB39002372E9 /* SingleBudgetViewController.m in Sources */,
 				8434BE091F91FF2200A4BDC7 /* LoginPage.m in Sources */,
 				CC673EE21F934C29000CE0B6 /* AmountCell.m in Sources */,
@@ -690,7 +759,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8468B69E1FA48E320060B59D /* SanityUISignupFailedWithNotEnoughArgs.m in Sources */,
+				CC61DB9C1FA7C3BF009621A0 /* ViewTransactions.m in Sources */,
+				84EF3ECA1FA477950064703F /* testPieChartRedirect.m in Sources */,
+				CC61DBA01FA81EE4009621A0 /* ChangePasswordSucc.m in Sources */,
+				8468B6A01FA48F550060B59D /* SanityUICreateBudgetsFailedWithNotEnoughArgs.m in Sources */,
+				84EF3EC61FA459F60064703F /* SanityUIRefreshHome.m in Sources */,
+				CC61DB9E1FA805E0009621A0 /* ViewCatesCorrToBudget.m in Sources */,
+				CCF0CE9F1FA6DF0000FE4C45 /* HomeTableViewCell.m in Sources */,
+				8468B69C1FA48DF00060B59D /* SanityUISignupFailed.m in Sources */,
+				84EF3ECE1FA47D5F0064703F /* SanityUILogin.m in Sources */,
+				84EF3ECC1FA47B0D0064703F /* SanityUICreateDuplicateBudget.m in Sources */,
+				84EF3EC81FA4715C0064703F /* SanityUIPieChartShowDetail.m in Sources */,
+				CCF0CE9E1FA6DD3A00FE4C45 /* SanityUIAddCategory.m in Sources */,
+				CCF7954F1FA6F6020040BCE1 /* SanityUIAddTransaction.m in Sources */,
+				84EF3EC41FA458F60064703F /* SanityUICreateBudget.m in Sources */,
+				8468B69A1FA48D240060B59D /* SanityUILoginFailed.m in Sources */,
 				7C2D9E1E1F875EFD00027681 /* SanityUITests.m in Sources */,
+				CCF795511FA79E280040BCE1 /* AddDuplicateTransaction.m in Sources */,
+				84EF3ED01FA47E770064703F /* SanityUISignUp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -825,7 +912,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Sanity/Sanity.entitlements;
-				DEVELOPMENT_TEAM = 4C4WA9FBP2;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Sanity/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.usc.Sanity;
@@ -839,7 +926,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Sanity/Sanity.entitlements;
-				DEVELOPMENT_TEAM = 4C4WA9FBP2;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Sanity/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.usc.Sanity;

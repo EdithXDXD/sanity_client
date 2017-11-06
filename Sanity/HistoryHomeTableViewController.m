@@ -9,6 +9,7 @@
 #import "HistoryHomeTableViewController.h"
 #import "SingleBudgetViewController.h"
 #import "HomeTableViewCell.h"
+#import "UIClientConnector.h"
 
 @interface HistoryHomeTableViewController ()
 @property (strong,nonatomic) NSArray* categorySlices;
@@ -27,6 +28,9 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    //set up page title
+    self.navigationItem.title = @"History - Budget List";
+    
     // Initialize the refresh control.
     self.refreshControl = [[UIRefreshControl alloc] init];
     self.refreshControl.backgroundColor = [UIColor purpleColor];
@@ -34,7 +38,11 @@
     [self.refreshControl addTarget:self
                             action:@selector(getLatest)
                   forControlEvents:UIControlEventValueChanged];
-    [self getInitialData];
+    
+    //set up delegate
+    self.controller = UIClientConnector.myClient.budgetListHistory;
+    //UIClientConnector.myClient.budgetListHistory.delegate = self;
+    [self getLatest];
 }
 
 - (void)reloadData
@@ -61,19 +69,22 @@
 //get data from delegate
 - (void) getLatest
 {
+    /*
     //testing purpose only
     #warning hard-coded, to be changed
     self.budgetArray = @[@"iPhone1", @"iPhone2",@"iPhone3",@"iPhone4",@"iPhone5",@"iPad"];
     self.amountArray = @[@"10/20",@"100/200",@"1000/2000",@"100000/2000000",@"10/90",@"10/100"];
     #warning hard-coded content, to be changed
     self.colors = @[@"black",@"black",@"black",@"orange",@"red",@"orange"];
+    */
     
     //call delegate
-    //[self.controller requestBudgetList];
-    [self reloadData];
+    UIClientConnector.myClient.budgetListHistory.delegate = self;
+    [self.controller requestBudgetList];
+    //[self reloadData]; //done in call back function
 }
 
-
+/*
 //get initial data from delegate
 - (void)getInitialData
 {
@@ -88,6 +99,8 @@
     //[self.controller requestBudgetList];
     [self reloadData];
 }
+*/
+
 
 /*
  - (void)didReceiveMemoryWarning {
@@ -154,9 +167,11 @@
        // int indexSelected = (int) indexPath.row;
         
         
+        /*
         //testing purpose only
         destViewController.slices = @[@"10/20",@"100/200",@"100/90",@"100/10"];
         destViewController.texts = @[@"iPhone1", @"iPhone2",@"iPhone3",@"iPhone4"];
+        */
         destViewController.pageTitle = self.budgetArray[(int)indexPath.row];
         
         /*
@@ -179,7 +194,9 @@
     self.budgetArray = budget;
     self.amountArray = amount;
     self.colors = color;
+    [self reloadData];
 }
+
 - (void) setTexts:(NSArray*) textsArray slices:(NSArray*) slicesArray
 {
     self.categoryTexts = textsArray;

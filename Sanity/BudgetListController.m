@@ -24,12 +24,22 @@
         NSNumber* total=[budget objectForKey:@"budgetTotal"];
         NSString* amountString= [NSString stringWithFormat:@"%@/%@",spent,total];
         [amount addObject:amountString];
-        [color addObject:@"black"];
+        
+        if(spent>total){
+            [color addObject:@"red"];
+
+        }
+        else{
+            [color addObject:@"black"];
+
+        }
         
         
         //NSString *spendT = [NSNumber stringValue];
         
     }
+    
+    
     [self.delegate setBudget:name amount:amount colors:color];
     
 }

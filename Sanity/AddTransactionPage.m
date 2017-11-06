@@ -101,7 +101,7 @@
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     if (pickerView == self.budgetPicker) {
         if (_budgetTF.text.length < 1) {
-            _budgetSelected = NO;
+           //  _budgetSelected = NO;
         }
         return [self.budgets count];
     }
@@ -121,9 +121,11 @@
 // #5
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     if (pickerView == self.budgetPicker) {
-        self.categoriesCurrBudget = [(Budget *)[self.budgets objectAtIndex:row] categories];
-        _budgetSelected = YES;
-        return [(Budget *)self.budgets[row] name];
+        if (row > -1){
+            self.categoriesCurrBudget = [(Budget *)[self.budgets objectAtIndex:row] categories];
+            _budgetSelected = YES;
+            return [(Budget *)self.budgets[row] name];
+        }
     }
     if (pickerView == self.categoryPicker) {
         if (_budgetSelected){
@@ -139,6 +141,7 @@
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     if (pickerView == self.budgetPicker) {
         self.budgetTF.text = [(Budget *)self.budgets[row] name];
+        self.categoriesCurrBudget = [(Budget *)[self.budgets objectAtIndex:row] categories];
         [_budgetTF endEditing:YES];
     }
     if (pickerView == self.categoryPicker) {
@@ -150,11 +153,12 @@
 
 #pragma mark - Table view data source
 - (IBAction)submitTransaction:(id)sender {
-    if (_amountTF.text.length < 1) {
+    if (_amountTF.text.length < 1 || _budgetTF.text.length < 1 || _categoryTF.text.length < 1) {
         [self getAlerted:@"Required Fields" msg:@"Please fill in all required fields"];
     }
+
     else if (![self numberFormatChecker:_amountTF.text]){
-         [self getAlerted:@"Number format Error" msg:@"Please enter numbers for budget amount"];
+         [self getAlerted:@"Number format Error" msg:@"Please enter numbers for transaction amount"];
     
     }
     else {
@@ -170,7 +174,7 @@
         
         //check whether exceeds amount
         NSNumber *newAmount = [NSNumber numberWithFloat:_amountTF.text.floatValue];
-        
+        [self exceedsBudget:newAmount withBudget:_budgetTF.text withCategory:_categoryTF.text];
         [_controller addTransaction:newAmount describe:_descripTF.text category:_categoryTF.text budget:_budgetTF.text date:components];
         
     }
@@ -180,16 +184,21 @@
 - (BOOL) exceedsBudget:(NSNumber *) newAmount withBudget:(NSString*) budget withCategory:(NSString*) cate{
     
     for (Budget* b in _budgets) {
-        if (b.name == budget) {
+        if ([b.name isEqualToString: budget]) {
             int threshold = b.threshold;
             for (Category *c in b.categories) {
-                if (c.name == cate){
+                if ([c.name isEqualToString:cate]){
                     float n = c.spent + [newAmount floatValue];
                     if (n > c.limit*threshold/100) {
                         NSString *notiTitle = [[NSString alloc] initWithFormat:@"Spent over budget with threshold %@ %% ", @(b.threshold).stringValue];
                         NSString *notiContent = [[NSString alloc] initWithFormat:@"You spend over budget %@ in category %@", b.name, c.name];
                         [AppDelegate setNotificationTitleAndContent:notiTitle withContent:notiContent];
                         [AppDelegate registerNotification:1];
+                        for (int i = 1; i <  b.remain; ++ i) {
+                            [AppDelegate setNotificationTitleAndContent:notiTitle withContent:notiContent];
+                            [AppDelegate registerNotification:60*60*24*i];
+
+                        }
 #warning lack time interval
                         break;
                     }

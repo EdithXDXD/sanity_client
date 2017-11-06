@@ -7,12 +7,15 @@
 //
 
 #import "ResetPasswordPage.h"
+#import "ChangePasswordController.h"
+#import "UIClientConnector.h"
 
 @interface ResetPasswordPage ()
 @property (weak, nonatomic) IBOutlet UITextField *oldPasswordTF;
 @property (weak, nonatomic) IBOutlet UITextField *resetPasswordTF;
 @property (weak, nonatomic) IBOutlet UITextField *confirmPasswordTF;
 
+@property ChangePasswordController* controller;
 @end
 
 @implementation ResetPasswordPage
@@ -40,14 +43,21 @@
         _confirmPasswordTF.text.length < 1) {
         [self getAlerted:@"Required Fields" msg:@"Should input all text fields to change password"];
     }
-    else if (_resetPasswordTF.text != _confirmPasswordTF.text){
+    else if (![_resetPasswordTF.text isEqualToString:_confirmPasswordTF.text]){
         [self getAlerted:@"New password is inconsistent" msg:@"Make sure that the old password and new password are the same."];
     }
     else {
     //call controller and update information
-        
+        _controller = UIClientConnector.myClient.changePassword;
+        UIClientConnector.myClient.changePassword.delegate = self;
+        [_controller changePassword:_oldPasswordTF.text newPassword:_resetPasswordTF.text];
+
     }
 
+}
+
+- (IBAction)dismissKey:(id)sender {
+    [sender resignFirstResponder];
 }
 
 /*
