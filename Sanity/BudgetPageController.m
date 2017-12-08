@@ -10,7 +10,7 @@
 #import "Category.h"
 #import "Budget.h"
 #import "Transaction.h"
-
+#import "Currency.h"
 @implementation BudgetPageController
 
 
@@ -40,20 +40,56 @@
     Budget* single=[self.client getBudget:name];
     NSMutableArray *name1 = [[NSMutableArray alloc]init];
     NSMutableArray *amount = [[NSMutableArray alloc]init];
+    
+    //set currency
+    Currency* dataModel;
+    dataModel = [Currency sharedModel];
+    float rate = [dataModel convertFrom:@"USD" To:dataModel.currCurrency];
+  
     for(int j=0;j<single.categories.count;j++){
         Category* cat=  [single.categories objectAtIndex:j];
         NSString* Catname=cat.name;
-        double Catspent=cat.spent;
-        double Cattotal=cat.limit;
-        NSString* amountString= [NSString stringWithFormat:@"%f/%f",Catspent,Cattotal];
+        double Catspent=cat.spent * rate;
+        double Cattotal=cat.limit * rate;
+        
+        NSString* amountString= [NSString stringWithFormat:@"%.02f/%.02f",Catspent,Cattotal];
         [amount addObject:amountString];
         [name1 addObject:Catname];
         
     }
+    
+    float remainMoney= (single.total-single.spent) * rate;
+    int ramainDay=single.remain;
+    int period=single.period;
+    NSString* info = [NSString stringWithFormat:@"Remaining: $%0.02f, Days Left: %i, Period: %i",remainMoney,ramainDay,period];
+    
+    
     NSLog(@"%@", name1);
     NSLog(@"%@", amount);
     [self.delegate setTexts:name1 slices:amount];
+     NSLog(@"%@", info);
+    [self.delegate setAdditionalText:info];
+       
+
     
+}
+
+-(void) requestSummary:(NSString*) name{
+    NSDictionary *info=@{@"email":self.client.myUser.email,@"budgetName":name};
+    
+    NSDictionary *message=@{@"function":@"requestSummary",@"information":info};
+    
+    [self.client sendMessage:message];
+    
+
+}
+
+-(void) shareBudget:(NSString*) budgetName budget:(NSString*)emailShare{
+    NSDictionary *info=@{@"email":self.client.myUser.email,@"budgetName":budgetName,@"emailShare":emailShare};
+    
+    NSDictionary *message=@{@"function":@"shareBudget",@"information":info};
+    
+    [self.client sendMessage:message];
 }
 
 
@@ -65,8 +101,13 @@
     NSMutableArray *transDate = [[NSMutableArray alloc]init];
     NSMutableArray *transAmount = [[NSMutableArray alloc]init];
 
-    double spent=actualCat.spent;
-    double limit=actualCat.limit;
+    //set currency
+    Currency* dataModel;
+    dataModel = [Currency sharedModel];
+    float rate = [dataModel convertFrom:@"USD" To:dataModel.currCurrency];
+    
+    double spent=actualCat.spent * rate;
+    double limit=actualCat.limit * rate;
     double remain=limit-spent;
     NSString *spentString=[NSString stringWithFormat:@"%f", spent];
     NSString *remianString=[NSString stringWithFormat:@"%f", remain];
@@ -79,7 +120,9 @@
     for(int j=0;j<trans.count;j++){
         Transaction* t=[trans objectAtIndex:j];
         [transName addObject:t.describe];
-        NSNumber *a=t.amount;
+        //set currency
+        float amtF = [t.amount floatValue] * rate;
+        NSNumber *a= [NSNumber numberWithFloat:amtF];
         NSString *aS=[a stringValue];
         [transAmount addObject:aS];
         [transDate addObject:t.date];

@@ -12,6 +12,7 @@
 //add call back function here
 - (void) setBudget:(NSArray*) budget amount:(NSArray*) amount colors:(NSArray*)color;
 - (void) setTexts:(NSArray*) textsArray slices:(NSArray*) slicesArray;
+- (void) setAdditionalText: (NSString*) text;
 @required
 @end
 
@@ -21,4 +22,6 @@
 @property (nonatomic,strong) id delegate;
 -(void) requestBudgetList;
 -(void) requestBudget:(NSString*) name;
+-(void) requestSummary:(NSString*) name;
+-(void) shareBudget:(NSString*) budgetName budget:(NSString*)emailShare;
 @end

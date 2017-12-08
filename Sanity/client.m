@@ -25,6 +25,7 @@
 #import "BudgetListHistoryController.h"
 #import "BudgetPageHistoryController.h"
 #import "AddCategoryController.h"
+#import "EditTransController.h"
 
 @implementation client
 - (instancetype)init
@@ -51,6 +52,7 @@
         _budgetListHistory=[[BudgetListHistoryController alloc] initWithClass:self];
         _budgetPageHistory=[[BudgetPageHistoryController alloc] initWithClass:self];
         _addCategory=[[AddCategoryController alloc] initWithClass:self];
+        _editTrans=[[EditTransController alloc] initWithClass:self];
 
         
         
@@ -192,24 +194,26 @@
 
                 
                 
-               // NSLog(@"%@", single.name)
-              /*  for(int i=0;i<_budgetListData.count;i++){
-                    Budget* single=[_budgetListData objectAtIndex:i];
-                    NSLog(@"%@", single.name);
-                    NSMutableArray* categlis=single.categories;
-                    for(int j=0;j<categlis.count;j++){
-                        Category* cat=[categlis objectAtIndex:j];
-                        NSLog(@"%@", cat.name);
-                        NSMutableArray* trasl=cat.transctions;
-                        for(int k=0;k<trasl.count;k++){
-                            Transaction* tras=[trasl objectAtIndex:k];
-                             NSLog(@"%@", tras.describe);
-                        }
-                        
-                    }
-
-                    
-                }*/
+                
+            }
+        }
+        else if ([function isEqualToString:@"autoLogin"]){
+            if([status isEqualToString:@"fail"]){
+                [_login fail];
+                
+            }else{
+                
+                _myUser.username=[messageObject objectForKey:@"username"];
+                NSDictionary*info=[messageObject objectForKey:@"information"];
+                _budgetListDataDic=(NSMutableArray*)[info objectForKey:@"budgetLsit"];
+                [self pharseAlldata:_budgetListDataDic];
+                NSLog(@"loginSuccess111");
+                [_login success:_budgetListDataDic];
+                
+                NSDictionary *infoma=@{@"email":self.myUser.email};
+                NSDictionary *message=@{@"function":@"requestHistory",@"information":infoma};
+                [self sendMessage:message];
+                
                 
                 
                 
@@ -279,6 +283,15 @@
                [ _changePassword success];
             }
         }
+        else if ([function isEqualToString:@"forgetChangePassword"]){
+            if([status isEqualToString:@"fail"]){
+                [_changePassword failForget];
+            }
+            else{
+                [ _changePassword successForget];
+            }
+            
+        }
         else if ([function isEqualToString:@"changeUsername"]){
             if([status isEqualToString:@"fail"]){
                 
@@ -312,6 +325,28 @@
                 [self pharseAlldata:_budgetListDataDic];
                 [_editBudget success];
                 
+                
+            }
+        }
+        else if ([function isEqualToString:@"deleteTransaction"]){
+            if([status isEqualToString:@"fail"]){
+           
+            }
+            else{
+                NSDictionary*info=[messageObject objectForKey:@"information"];
+                _budgetListDataDic=(NSMutableArray*)[info objectForKey:@"budgetLsit"];
+                [self pharseAlldata:_budgetListDataDic];
+                
+            }
+        }
+        else if ([function isEqualToString:@"editTransaction"]){
+            if([status isEqualToString:@"fail"]){
+                
+            }
+            else{
+                NSDictionary*info=[messageObject objectForKey:@"information"];
+                _budgetListDataDic=(NSMutableArray*)[info objectForKey:@"budgetLsit"];
+                [self pharseAlldata:_budgetListDataDic];
                 
             }
         }
@@ -378,6 +413,10 @@
             NSMutableArray* info66=(NSMutableArray*)[info6 objectForKey:@"budgetLsit"];
             NSMutableArray* info666=[self pharseHistorydata:info66];
             
+            NSDictionary*info7=[messageObject objectForKey:@"information7"];
+            NSMutableArray* info77=(NSMutableArray*)[info7 objectForKey:@"budgetLsit"];
+            NSMutableArray* info777=[self pharseHistorydata:info77];
+            
             _budgetHistoryData=[[NSMutableArray alloc]init];
             [_budgetHistoryData addObject:info111];
             [_budgetHistoryData addObject:info222];
@@ -385,6 +424,7 @@
             [_budgetHistoryData addObject:info444];
             [_budgetHistoryData addObject:info555];
             [_budgetHistoryData addObject:info666];
+             [_budgetHistoryData addObject:info777];
             
             _budgetHistoryDataDic=[[NSMutableArray alloc]init];
             [_budgetHistoryDataDic addObject:info11];
@@ -393,6 +433,7 @@
               [_budgetHistoryDataDic addObject:info44];
               [_budgetHistoryDataDic addObject:info55];
               [_budgetHistoryDataDic addObject:info66];
+             [_budgetHistoryDataDic addObject:info77];
 
 
 
@@ -523,7 +564,11 @@
         singleB.frequency=[[budget objectForKey:@"frequency"] intValue];
         singleB.threshold=[[budget objectForKey:@"threshold"] intValue];
         singleB.remain=[[budget objectForKey:@"remain"] intValue];
-          singleB.period=[[budget objectForKey:@"period"] intValue];
+        singleB.period=[[budget objectForKey:@"period"] intValue];
+        
+        singleB.remainNew=[[budget objectForKey:@"remain"] intValue];
+                
+
         
         NSMutableArray* cateL=[budget objectForKey:@"categoryList"];
         singleB.categories=[[NSMutableArray alloc]init];
@@ -545,6 +590,8 @@
                 single.dateString=[transaction objectForKey:@"date"];
                 single.budget=[transaction objectForKey:@"budgetName"];
                 single.category=[transaction objectForKey:@"categoryName"];
+                single.longi=[transaction objectForKey:@"longi"];
+                single.lat=[transaction objectForKey:@"lat"];
                 [singleC.transctions addObject:single];
                 
         }
@@ -556,11 +603,7 @@
             [ singleB.categories addObject:singleC];
         }
         
-        
-        
-        
-        
-        
+
         
         [_budgetListData addObject:singleB];
         

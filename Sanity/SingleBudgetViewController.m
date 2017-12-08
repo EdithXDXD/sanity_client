@@ -17,6 +17,8 @@
 @property int indexClicked;
 @property int numOfClicks;
 @property int previousIndexClicked;
+@property (weak, nonatomic) IBOutlet UILabel *detailLabel;
+@property (strong, nonatomic) IBOutlet UIView *shareButton;
 
 @end
 
@@ -28,6 +30,7 @@
     self.navigationItem.title = self.pageTitle;
     self.slices = [[NSMutableArray alloc] init];
     self.texts = [[NSMutableArray alloc] init];
+    self.detailLabel.text = @"";
     
     //set up delegate
     self.controller = UIClientConnector.myClient.budgetList;
@@ -46,6 +49,26 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)sharePressed:(id)sender {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Share" message:@"Please enter the email of the other user" preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textfield)
+     {
+         textfield.placeholder = @"tommytrojan@usc.edu";
+     }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle: @"Cancel" style:UIAlertActionStyleCancel handler: nil];
+    
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle: @"Confirm" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction *action){
+                                                              UITextField *emailTF = alertController.textFields.firstObject;
+                                                              self.controller.delegate = self;
+                                                              [self.controller shareBudget:self.pageTitle budget:emailTF.text];
+                                                          }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:confirmAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -83,6 +106,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    //set up delegate
+    self.controller = UIClientConnector.myClient.budgetList;
+    UIClientConnector.myClient.budgetList.delegate = self;
+    //to get data
+    [self.controller requestBudget:self.pageTitle];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -96,6 +124,13 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+}
+
+- (IBAction)sendSummary:(id)sender {
+    //set delegate
+    UIClientConnector.myClient.budgetList.delegate = self;
+    //to get data
+    [self.controller requestSummary:self.pageTitle];
 }
 
 #pragma mark - XYPieChart Data Source
@@ -177,6 +212,12 @@
     [self.PieChartDisplay reloadData];
 }
 
+- (void) setAdditionalText: (NSString*) text
+{
+    NSLog(@"text received: %@",text);
+    self.additionalInfo = text;
+    self.detailLabel.text = text;
+}
 
 /*
  #pragma mark - Navigation

@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface SingleCategoryTableViewController : UITableViewController
+//for edit transaction
+@property (nonatomic,strong) NSString *budgetName;
+@property (nonatomic,strong) NSString *categoryName;
+//originals
 @property (nonatomic, strong) NSArray *texts;
 @property (nonatomic, strong) NSArray *slices;
 @property (nonatomic, strong) NSArray *transactionNames;
@@ -19,8 +23,9 @@
 @property (nonatomic, strong) NSString * pieChartLabelColor;
 @property (nonatomic, strong) NSString * pageTitle;
 @property int period;
+@property (nonatomic, strong) NSMutableArray *longtitude;
+@property (nonatomic, strong) NSMutableArray *latitude;
 
 - (void) setTexts:(NSArray*) textsArray slices:(NSArray*)slicesArray transactionNames:(NSArray*) names transactionAmounts:(NSArray*) amounts transactionDates:(NSArray*)dates numOfTransactions:(int) number labelColor:(NSString*) color;
-
 
 @end

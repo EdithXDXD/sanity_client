@@ -11,6 +11,7 @@
 #import "Category.h"
 #import "EditBudgetController.h"
 #import "AddCategoryPage.h"
+#import "SingleBudgetViewController.h"
 
 @interface EditBudgetPage ()
 @property (weak, nonatomic) IBOutlet UITextField *budgetNameTF;
@@ -121,10 +122,12 @@
     for (int i = 0; i < _categories.count; ++i){
         //budget name could be changed, so get it from text field
         Category *cate = [_categories objectAtIndex:i];
-        CategoryDisplay *cateDisplay = [_cateCells objectAtIndex:i+2];
+        CategoryDisplay *cateDisplay = [_cateCells objectAtIndex:i+1];
         NSString *testCell = cateDisplay.categoryNameTF.text;
+        NSString *testCellAmount = cateDisplay.categoryAmountTF.text;
         NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
-        [_controller editCategory:_budgetNameTF.text :cate.name :cateDisplay.categoryNameTF.text :[f numberFromString: cateDisplay.categoryAmountTF.text ]];
+        
+        [_controller editCategory:_budgetName :cate.name :testCell :[f numberFromString: cateDisplay.categoryAmountTF.text ]];
     }
 }
 
@@ -159,23 +162,9 @@
                                    actionWithTitle:@"Yes"
                                    style:UIAlertActionStyleDestructive
                                    handler:^(UIAlertAction *action){
-#warning call@jiaxin's function confirm delete
                                        //Delete the object from the friends array and the table.
                                        [_controller deleteCategory:_budgetName :cell.categoryNameTF.text ];
                                        
-                                       //delete category from two arraylists
-//                                       for (Category *cate in _categories){
-//                                           if ([cate.name isEqual:cell.categoryNameTF.text]){
-//                                               [_categories removeObject:cate];
-//                                           }
-//                                       }
-//                                       
-//                                       for (CategoryDisplay * cellA in _cateCells){
-//                                           if ([cellA.categoryNameTF.text isEqual:cell.categoryNameTF.text]){
-//                                               [_cateCells removeObject:cellA];
-//                                           }
-//                                       }
-//                                       
                                        _toBeDeleteRow = indexPath;
                                    
                                    }];
@@ -250,9 +239,10 @@
 - (void) deleteCategoryFail {
     [self getAlerted:@"Delete Failed" msg:@"Server receives error message."];
 }
+
 - (void) editEntireBudgetSuccess {
-#warning Need to refreshpage
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self alertedAndGoBack:@"Success!" msg:@"You successfully updated the budget"];
+  
 }
 - (void) editEntireBudgetFail {
     [self getAlerted:@"Update failed" msg:@"Update error occured"];
@@ -270,6 +260,23 @@
                                style:UIAlertActionStyleDefault
                                handler:^(UIAlertAction *action){
                                    //set all label to red
+                               }];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+    
+}
+
+- (void) alertedAndGoBack: (NSString*) Title msg:(NSString*) Message {
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:Title
+                                          message:Message
+                                          preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction
+                               actionWithTitle:@"OK"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction *action){
+                                  //pop back to other page
+                                   [self.navigationController popToRootViewControllerAnimated:true];
                                }];
     [alertController addAction:okAction];
     [self presentViewController:alertController animated:YES completion:nil];

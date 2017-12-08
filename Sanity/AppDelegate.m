@@ -1,4 +1,4 @@
-//
+ //
 //  AppDelegate.m
 //  Sanity
 //
@@ -8,6 +8,9 @@
 
 #import "AppDelegate.h"
 #import <UserNotifications/UserNotifications.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+@import GoogleMaps;
+
 @interface AppDelegate ()<UNUserNotificationCenterDelegate>
 @end
 
@@ -17,6 +20,8 @@
  NSString *notificationContent;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+     [GMSServices provideAPIKey:@"AIzaSyCJ2WoiBwKcpTNAI5hzpH89rZpcCSbAWjM"];
+    
     // use UNUserNotificationCenter to manage all notifications
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     // set up listener
@@ -32,6 +37,12 @@
     [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
         
     }];
+    
+    // facebook login
+    [[FBSDKApplicationDelegate sharedInstance] application:application
+                             didFinishLaunchingWithOptions:launchOptions];
+    // Add any custom logic here.
+    return YES;
     return YES;
 }
 
@@ -94,11 +105,26 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [FBSDKAppEvents activateApp];
 }
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    
+    BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                                  openURL:url
+                                                        sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+                                                               annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
+                    ];
+    // Add any custom logic here.
+    return handled;
 }
 
 

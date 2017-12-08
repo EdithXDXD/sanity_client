@@ -9,6 +9,10 @@
 #import "LoginPage.h"
 #import "HomePageTableViewController.h"
 #import "UIClientConnector.h"
+#import <LocalAuthentication/LocalAuthentication.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
+
 
 @interface LoginPage ()
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
@@ -16,7 +20,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIButton *signupButton;
 @property (weak, nonatomic) IBOutlet UILabel *warningLabel;
-
+@property (strong, nonatomic) NSString* filepath;
+@property (strong, nonatomic) NSString* autofillUsername;
+@property (weak, nonatomic) IBOutlet UIButton *touchIDButton;
+@property (weak, nonatomic) IBOutlet UIView *FacebookButtonView;
 
 @end
 
@@ -26,6 +33,85 @@
     [super viewDidLoad];
     //hide the warning Label
     [self.warningLabel setHidden:YES];
+    self.loginController = UIClientConnector.myClient.login;
+    UIClientConnector.myClient.login.delegate = self;
+    
+    
+    //set up property list path
+    // find the Documents directory
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = paths[0];
+    //NSLog(@"documentsDirectory = %@", documentsDirectory);
+    self.filepath = [documentsDirectory stringByAppendingPathComponent:@"INFO.plist"];
+    NSLog(@"filepath = %@", self.filepath);
+    NSDictionary *fileContent = [NSDictionary dictionaryWithContentsOfFile:self.filepath];
+    //fill in username(email) automatically
+    if(fileContent)
+    {
+        self.autofillUsername = fileContent[@"Username"];
+        self.emailTextField.text = self.autofillUsername;
+        self.touchIDButton.hidden = false;
+        self.touchIDButton.enabled = true;
+        [self touchIDHelper];
+    }
+    
+    // facebook login button
+    FBSDKLoginButton *FBloginButton = [[FBSDKLoginButton alloc] init];
+    // location of the login button
+    FBloginButton.center = self.FacebookButtonView.center;
+    [self.view addSubview:FBloginButton];
+    
+   
+}
+
+- (void) viewDidAppear:(BOOL)animated{
+    if ([FBSDKAccessToken currentAccessToken]) {
+        // User is logged in, do work such as go to next view controller.
+        [_loginController autoLogin:self.autofillUsername];
+
+    }
+    
+}
+
+- (void) touchIDHelper{
+    // touch id
+    LAContext *myContext = [[LAContext alloc] init];
+    NSError *authError = nil;
+    NSString *myLocalizedReasonString = @"Please login with your touch id";
+    
+    if ([myContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&authError]) {
+        [myContext evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+                  localizedReason:myLocalizedReasonString
+                            reply:^(BOOL success, NSError *error) {
+                                if (success) {
+                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                        [_loginController autoLogin:self.autofillUsername];
+                                        
+                                    });
+                                } else {
+                                    //                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                    //                                            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+                                    //                                                                                                message:error.description
+                                    //                                                                                               delegate:self
+                                    //                                                                                      cancelButtonTitle:@"OK"
+                                    //                                                                                      otherButtonTitles:nil, nil];
+                                    //                                            [alertView show];
+                                    //                                            // Rather than show a UIAlert here, use the error to determine if you should push to a keypad for PIN entry.
+                                    //                                        });
+                                }
+                            }];
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                message:authError.description
+                                                               delegate:self
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil, nil];
+            [alertView show];
+            // Rather than show a UIAlert here, use the error to determine if you should push to a keypad for PIN entry.
+        });
+    }
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,6 +132,7 @@
     [self tryLogin];
     
 }
+
 - (IBAction)exitKeyboardForEmail:(id)sender {
     //get rid of white space
     self.emailTextField.text = [self.emailTextField.text stringByTrimmingCharactersInSet:
@@ -65,10 +152,12 @@
     [self.emailTextField resignFirstResponder];
 }
 
+- (IBAction)touchIDLogin:(id)sender {
+    [self touchIDHelper];
+}
+
 - (void) tryLogin{
     
-    self.loginController = UIClientConnector.myClient.login;
-    UIClientConnector.myClient.login.delegate = self;
     [self.loginController login:self.email password:self.password];
     
     
@@ -95,11 +184,13 @@
     }
 }
 
+
 - (void) loginSucceeded:(NSArray *) budget withAmount:(NSArray *) amount withColor:(NSArray *) color
 {
     self.colors = color;
     self.budgetArray = budget;
     self.amountArray = amount;
+    [self saveUsernameToPList];
     [self performSegueWithIdentifier:@"LoginToHomeSegue" sender:self];
 }
 
@@ -109,14 +200,11 @@
 }
 
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+- (void) saveUsernameToPList {
+    NSDictionary * fileToStore = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  self.emailTextField.text, @"Username",
+                                  nil];
+    [fileToStore writeToFile: self.filepath atomically:YES];
+}
 
 @end

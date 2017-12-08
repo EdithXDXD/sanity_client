@@ -11,8 +11,18 @@
 #import "TranscationLabelCell.h"
 #import "TransactionCell.h"
 #import "UIClientConnector.h"
+#import "EditTransaction.h"
+#import "Transaction.h"
+#import "MapViewController.h"
 
-@interface SingleCategoryTableViewController ()
+@interface SingleCategoryTableViewController()
+@property NSString* oldAmount;
+@property NSString* oldTransname;
+@property NSString* oldDate;
+@property NSMutableArray* transactions;
+@property int amountSortCount;
+@property int dateSortCount;
+
 @end
 
 @implementation SingleCategoryTableViewController
@@ -25,6 +35,18 @@
     //set up page title
     self.navigationItem.title = self.pageTitle;
     
+    //set up transactions for sorting
+    self.transactions = [[NSMutableArray alloc] init];
+    for (int i = 0; i < self.transactionNames.count; ++i) {
+        Transaction* tempTrans = [[Transaction alloc] init];
+        tempTrans.describe = self.transactionNames[i];
+        tempTrans.amount = self.transactionAmounts[i];
+        tempTrans.dateString = self.transactionDates[i];
+        [_transactions addObject:tempTrans];
+    }
+    
+    self.amountSortCount = 0;
+    self.dateSortCount = 0;
     /*
     // Initialize the refresh control.
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -66,13 +88,48 @@
         [self.refreshControl endRefreshing];
     }
 }
+- (IBAction)sortByAmount:(id)sender {
+    if (_amountSortCount % 2 == 0){
+        NSSortDescriptor *sortDescriptor;
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"amount"
+                                                     ascending:YES];
+    
+        self.transactions = [self.transactions sortedArrayUsingDescriptors:@[sortDescriptor]];
+    }
+    else {
+        NSSortDescriptor *sortDescriptor;
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"amount"
+                                                     ascending:NO];
+        
+        self.transactions = [self.transactions sortedArrayUsingDescriptors:@[sortDescriptor]];
+    }
+    self.amountSortCount ++;
+    [self.tableView reloadData];
+
+}
+
+- (IBAction)sortByDate:(id)sender {
+    if (self.dateSortCount % 2 == 0){
+        NSSortDescriptor *sortDescriptor;
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"dateString"
+                                                 ascending:YES];
+        self.transactions = [self.transactions sortedArrayUsingDescriptors:@[sortDescriptor]];
+    }
+    else {
+        NSSortDescriptor *sortDescriptor;
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"dateString"
+                                                     ascending:NO];
+        self.transactions = [self.transactions sortedArrayUsingDescriptors:@[sortDescriptor]];
+    }
+    
+    self.dateSortCount ++;
+    [self.tableView reloadData];
+}
 
 //get data from delegate
 - (void) getLatest
 {
     //update data
-#warning hard-coded, to be changed
-    
     [self reloadData];
 }
 
@@ -114,11 +171,14 @@
     if(indexPath.row == 0){ //set up "Transaction" labell
         TranscationLabelCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SingleCategoryTransactionLabelCell" forIndexPath:indexPath];
         return cell;
-    }else {//set up transactions
+    }else{//set up transactions
         TransactionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SingleCategoryTransactionCell" forIndexPath:indexPath];
-        cell.nameLabel.text = self.transactionNames[indexPath.row-1];
-        cell.amountLabel.text = self.transactionAmounts[indexPath.row-1];
-        cell.dateLabel.text = self.transactionDates[indexPath.row-1];
+        cell.nameLabel.text = [self.transactions[indexPath.row-1] describe];
+        NSNumber * amtStr = [self.transactions[indexPath.row-1] amount];
+        float amt = [amtStr floatValue];
+        NSString * amt2Decimal = [[NSString alloc] initWithFormat:@"%0.02f",amt];
+        cell.amountLabel.text = amt2Decimal;
+        cell.dateLabel.text = [self.transactions[indexPath.row-1] dateString];
         return cell;
     }
     
@@ -136,6 +196,18 @@
     self.pieChartLabelColor = color;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSNumber * amtStr = [self.transactions[indexPath.row-1] amount];
+    float amt = [amtStr floatValue];
+    NSString * amt2Decimal = [[NSString alloc] initWithFormat:@"%0.02f",amt];
+    
+    self.oldAmount = amt2Decimal;
+    self.oldDate = [self.transactions[indexPath.row-1] dateString];
+    self.oldTransname =  [self.transactions[indexPath.row-1] describe];
+    
+    [self performSegueWithIdentifier:@"ShowDetail" sender:tableView];
+}
 
 /*
  // Override to support conditional editing of the table view.
@@ -171,14 +243,23 @@
  }
  */
 
-/*
+
  #pragma mark - Navigation
  
  // In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
  // Get the new view controller using [segue destinationViewController].
  // Pass the selected object to the new view controller.
+     
+     if ([segue.identifier isEqualToString:@"ShowDetail"]) {
+         //Do something
+        EditTransaction *editTrans = segue.destinationViewController;
+         editTrans.oldbudget = self.budgetName;
+         editTrans.oldcategory = self.categoryName;
+         editTrans.oldAmount = self.oldAmount;
+         editTrans.olddescrip = self.oldTransname;
+         editTrans.dateText = self.oldDate;
+     }
  }
- */
 
 @end

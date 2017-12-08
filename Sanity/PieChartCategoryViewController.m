@@ -10,10 +10,13 @@
 #import "XYPieChart.h"
 #import "SingleCategoryTableViewController.h"
 #import "UIClientConnector.h"
+#import "Currency.h"
+#import "MapViewController.h"
 
 @interface PieChartCategoryViewController ()
 @property (weak, nonatomic) IBOutlet XYPieChart *PieChartDisplay;
 @property (weak, nonatomic) IBOutlet UILabel *detailLabel;
+@property (strong, nonatomic) Currency* sharedModel;
 
 @end
 
@@ -27,6 +30,8 @@
     self.transactionNames = [[NSMutableArray alloc] init];
     self.transactionAmounts = [[NSMutableArray alloc] init];
     self.transactionDates = [[NSMutableArray alloc] init];
+    self.longtitude =  [[NSMutableArray alloc] init];
+    self.latitude =  [[NSMutableArray alloc] init];
     
     //set up page title
     self.navigationItem.title = self.pageTitle;
@@ -51,7 +56,8 @@
     #warning to be uncommented
         [self.controller requestCategory:self.budgetName category:self.pageTitle period:self.period];
     }
-    
+    //set up shared model
+    _sharedModel = [Currency sharedModel];
     /*
     //for testing purposers
     self.texts =  @[@"used",@"unused"];
@@ -106,6 +112,18 @@
         destViewController.pieChartLabelColor = self.pieChartLabelColor;
         destViewController.pageTitle = self.pageTitle;
         destViewController.period = self.period;
+        destViewController.budgetName = self.budgetName;
+        destViewController.categoryName = self.pageTitle;
+        destViewController.longtitude = self.longtitude;
+        destViewController.latitude = self.latitude;
+    }else if ([segue.identifier isEqualToString:@"TransactionToMap"]){
+        UINavigationController *navController = [segue destinationViewController];
+        MapViewController * view = (MapViewController *)([navController viewControllers][0]);
+        view.longtitude = self.longtitude;
+        view.latitude = self.latitude;
+        view.transactionDates = self.transactionDates;
+        view.transactionAmounts = self.transactionAmounts;
+        view.transactionNames = self.transactionNames;
     }
 }
 
@@ -126,7 +144,7 @@
 }
 
 //call back function for delegate
-- (void) setTexts:(NSMutableArray *) textsArray slices:(NSMutableArray *)slicesArray transactionNames:(NSMutableArray *) names transactionAmounts:(NSMutableArray *) amounts transactionDates:(NSMutableArray *)dates numOfTransactions:(int) number labelColor:(NSString*) color
+- (void) setTexts:(NSMutableArray *) textsArray slices:(NSMutableArray *)slicesArray transactionNames:(NSMutableArray *) names transactionAmounts:(NSMutableArray *) amounts transactionDates:(NSMutableArray *)dates numOfTransactions:(int) number labelColor:(NSString*)color longtitude:(NSMutableArray *)longtitudeArray latitude:(NSMutableArray *)latitudeArray
 {
     self.texts = textsArray;
     self.slices = slicesArray;
@@ -135,6 +153,9 @@
     self.transactionDates = dates;
     self.numOfTransactions = number;
     self.pieChartLabelColor = color;
+    self.longtitude = longtitudeArray;
+    self.latitude = latitudeArray;
+    
     if([color isEqualToString:@"red"])
     {
         self.detailLabel.textColor = [UIColor redColor];

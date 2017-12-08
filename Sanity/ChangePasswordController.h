@@ -14,6 +14,9 @@
 - (void)resetPasswordSuccess;
 
 - (void)resetPasswordFailed;
+- (void)ForgetPasswordSuccess;
+//give me a reason for success or not
+- (void)ForgetPasswordFailed:(NSString*) reason;
 //- (void) displayProfile:(NSString*)username :(NSString*)email;
 @required
 @end
@@ -28,6 +31,10 @@
 - (id) initWithClass:(client *)myClient;
 -(void) success;
 -(void) fail;
+-(void) forgetPassword:(NSString*)email;
+-(void) forgetChangePassword:(NSString*)email password:(NSString*)password code:(NSString*)code;
+-(void) successForget;
+-(void) failForget;
 //@property (strong, atomic)  client *client;
 
 @end

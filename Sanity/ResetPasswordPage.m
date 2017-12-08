@@ -14,6 +14,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *oldPasswordTF;
 @property (weak, nonatomic) IBOutlet UITextField *resetPasswordTF;
 @property (weak, nonatomic) IBOutlet UITextField *confirmPasswordTF;
+@property (weak, nonatomic) IBOutlet UITextField *emailTF;
+@property (weak, nonatomic) IBOutlet UITextField *verificationCodeTF;
+@property NSString* email;
 
 @property ChangePasswordController* controller;
 @end
@@ -22,6 +25,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _controller = UIClientConnector.myClient.changePassword;
+    UIClientConnector.myClient.changePassword.delegate = self;
     // Do any additional setup after loading the view.
 }
 
@@ -48,27 +53,41 @@
     }
     else {
     //call controller and update information
-        _controller = UIClientConnector.myClient.changePassword;
-        UIClientConnector.myClient.changePassword.delegate = self;
+  
         [_controller changePassword:_oldPasswordTF.text newPassword:_resetPasswordTF.text];
 
     }
 
 }
 
+#pragma mark callbacks
+- (void) ForgetPasswordSuccess{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void) ForgetPasswordFailed:(NSString *)reason{
+      [self getAlerted:@"Forget Password Failed." msg:reason];
+}
+
 - (IBAction)dismissKey:(id)sender {
     [sender resignFirstResponder];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (IBAction)submitEmail:(id)sender {
+    self.email = self.emailTF.text;
+    [self.controller forgetPassword:self.emailTF.text];
+    [self performSegueWithIdentifier:@"forgetToVerify" sender:sender];
+   // forgetToVerify
 }
-*/
+- (IBAction)submitForgetPass:(id)sender {
+#warning call controler
+    if (![self.resetPasswordTF.text isEqualToString:self.confirmPasswordTF.text]){
+        [self getAlerted:@"Passwords don't match!" msg:@":("];
+    }
+    else {
+        [self.controller forgetChangePassword:self.email password:self.resetPasswordTF.text code:self.verificationCodeTF.text];
+    }
+}
+
 
 - (void) getAlerted: (NSString*) errorTitle msg:(NSString*) errorMessage {
     UIAlertController *alertController = [UIAlertController
@@ -79,11 +98,27 @@
                                actionWithTitle:@"OK"
                                style:UIAlertActionStyleDefault
                                handler:^(UIAlertAction *action){
-                                   //set all label to red
+                                   if ([errorTitle isEqualToString: @"Forget Password Failed."]){
+                                       [self.navigationController popToRootViewControllerAnimated:YES];
+                                   }
+                                   
                                }];
     [alertController addAction:okAction];
     [self presentViewController:alertController animated:YES completion:nil];
     
 }
+
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+      if ([segue.identifier isEqualToString:@"forgetToVerify"]) {
+          ResetPasswordPage *forgetPass = segue.destinationViewController;
+          forgetPass.email = self.emailTF.text;
+      }
+}
+ 
 
 @end
